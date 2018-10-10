@@ -11,3 +11,9 @@ gulp ui for UI
 gulp wp for wordpress
 
 run together cmd+t on terminal
+
+### To Do
+
+- [ ] Solve images paths
+- [ ] Setup dynamical vars on installations form Mamp
+- [ ] On new files need to lunch gulp again
