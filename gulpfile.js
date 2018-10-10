@@ -13,7 +13,8 @@ var gulp = require('gulp'),
 
 // Gulp Task SASS, postcss/autoprefixer, Browsersync
 gulp.task('sass', function() {
-    return gulp.src('./app/scss/main.scss')
+    //return gulp.src('./ui/scss/main.scss')
+    return gulp.src('./assets/scss/**/*.scss')
         .pipe(sass())
         .pipe(postcss([ autoprefixer({ browsers: [
           'Chrome >= 35',
@@ -25,18 +26,18 @@ gulp.task('sass', function() {
           'Android 2.3',
           'Android >= 4',
           'Opera >= 12']})]))
-        .pipe(gulp.dest('./app/build/css'))
+        .pipe(gulp.dest('./ui/build/css'))
         .pipe(browserSync.stream());
 });
 
 // File Include
 gulp.task('fileinclude', function() {
-  return gulp.src(['./app/*.html'])
+  return gulp.src(['./ui/*.html'])
     .pipe(fileinclude({
       prefix: '@@',
       basepath: '@file'
     }))
-    .pipe(gulp.dest('./app/build/'))
+    .pipe(gulp.dest('./ui/build/'))
     .pipe(browserSync.stream());
 });
 
@@ -46,7 +47,8 @@ gulp.task('fileinclude-watch', ['fileinclude']);
 // Uglify - Cache
 gulp.task('scripts', function () {
   var jsFsCache = fsCache('.tmp/jscache'); // save cache to .tmp/jscache
-  return gulp.src(['./app/js/plugins.js', './app/js/main.js'])
+  //return gulp.src(['./ui/js/plugins.js', './ui/js/main.js'])
+  return gulp.src(['./assets/js/plugins.js', './assets/js/main.js'])
       .pipe(concat('app.js'))
       .pipe(sourcemaps.init())
       .pipe(jsFsCache)
@@ -54,19 +56,21 @@ gulp.task('scripts', function () {
       .pipe(rename('app.min.js'))
       .pipe(jsFsCache.restore)
       .pipe(sourcemaps.write())
-      .pipe(gulp.dest('./app/build/js/')).pipe(browserSync.stream());
+      .pipe(gulp.dest('./ui/build/js/')).pipe(browserSync.stream());
 });
 
 // Compile SASS
 gulp.task('serve', ['sass'], function() {
     browserSync.init({
-        server: "./app/build/"
+        server: "./ui/build/"
     });
     // warch file-include for root and inc
-    gulp.watch(['./app/inc/**/*.html', './app/*.html'], ['fileinclude-watch']);
-    gulp.watch("./app/scss/**/*.scss", ['sass']);
-    gulp.watch("./app/js/**/*.js", ['scripts']);
-    gulp.watch("./app/*.html").on('change', browserSync.reload);
+    gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
+    //gulp.watch("./ui/scss/**/*.scss", ['sass']);
+    gulp.watch("./assets/scss/**/*.scss", ['sass']);
+    //gulp.watch("./ui/js/**/*.js", ['scripts']);
+    gulp.watch("./assets/js/**/*.js", ['scripts']);
+    gulp.watch("./ui/*.html").on('change', browserSync.reload);
 });
 
 // Creating a server at the root
