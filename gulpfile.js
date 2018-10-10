@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     fsCache = require('gulp-fs-cache'),
     rename = require("gulp-rename"),
-    concat = require('gulp-concat');
+    concat = require('gulp-concat'),
+    ThemeName = "ui-wp";
 
 
 // Gulp Task SASS, postcss/autoprefixer, Browsersync
@@ -26,7 +27,7 @@ gulp.task('sass', function() {
           'Android >= 4',
           'Opera >= 12']})]))
         .pipe(gulp.dest('./ui/build/css'))
-        .pipe(gulp.dest('./wp/wp-content/themes/ui-wp/css'))
+        .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/css'))
         .pipe(browserSync.stream());
 });
 
@@ -56,7 +57,7 @@ gulp.task('scripts', function () {
       .pipe(jsFsCache.restore)
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('./ui/build/js/'))
-      .pipe(gulp.dest('./wp/wp-content/themes/ui-wp/js'))
+      .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/js'))
       .pipe(browserSync.stream());
 });
 
@@ -75,13 +76,13 @@ gulp.task('ui', ['sass'], function() {
 // Compile WP
 gulp.task('wp', ['sass'], function() {
     browserSync.init({
-        proxy: "http://localhost:8888/test/ui-wp/wp/"
+        proxy: 'http://localhost:8888/test/'+ThemeName+'/wp/'
     });
     gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
     gulp.watch("./assets/scss/**/*.scss", ['sass']);
     gulp.watch("./assets/css/**/*.css", ['sass']);
     gulp.watch("./assets/js/**/*.js", ['scripts']);
-    gulp.watch("./wp/wp-content/themes/ui-wp/*.php").on('change', browserSync.reload);
+    gulp.watch('./wp/wp-content/themes/'+ThemeName+'/*.php').on('change', browserSync.reload);
 });
 
 // Creating a server at the root
