@@ -1,0 +1,268 @@
+/* ==========================================================================
+   IMPORT
+   ========================================================================== */
+
+@import "normalize";
+
+/* ==========================================================================
+   Boilerplate
+   ========================================================================== */
+
+
+html {
+    color: #222;
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+
+/* ==========================================================================
+   RESET
+   ========================================================================== */
+
+h1, h2, h3, h4, ul, ul li , ol , ol li, p, figure, blockquote { margin: 0; padding: 0;}
+h1, h2, h3, h4, strong { font-weight: normal; }
+input, select {  outline: none; border: none; }
+ul li, ol li { list-style: none; }
+a { text-decoration: none; color: #000;	}
+table { border: none; }
+
+::-moz-selection { color: #FFF; background: #1a2025; }
+::selection { color: #FFF; background: #1a2025;}
+a:active, a:visited, a:focus { outline: none; }
+* { outline: none; }
+
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset; }
+
+/* ==========================================================================
+   VARS
+   ========================================================================== */
+
+$svg: no-repeat center center / 100% 100%;
+$indent: -9999px;
+$transition: 700ms cubic-bezier(0.520, 0.005, 0.000, 0.995);
+
+$light: 300;
+$regular: 400;
+$semi-bold: 600;
+$bold: 700;
+
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+
+/* ==========================================================================
+   GENERAL
+   ========================================================================== */
+
+
+
+/* ==========================================================================
+   HELPERS
+   ========================================================================== */
+
+.left { float: left; }
+.right { float: right; }
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+@media only screen and (max-width : 1240px) { }
+
+// Landscape
+@media only screen and (max-width : 1024px) { }
+
+// Portrait
+@media only screen and (max-width : 768px) { @import "tablet"; }
+
+// Iphone X Landscape
+@media only screen and (max-width : 812px) { }
+
+// Iphone Portrait
+@media only screen and (max-width : 667px) { @import "mobile"; }
+
+/*
+// Iphone 5
+@media only screen and (max-width : 320px) {
+
+}
+
+// Iphone Landscape
+@media only screen and (max-height : 375px)  {
+
+}
+
+@media only screen and (min-width : 320px) and (max-width : 480px) {
+}
+
+
+@media only screen and (min-width: 35em) {
+
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+
+}
+*/
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+
+@media print {
+    *,
+    *:before,
+    *:after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
