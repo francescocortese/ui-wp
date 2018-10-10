@@ -87,4 +87,4 @@ gulp.task('wp', ['sass'], function() {
 });
 
 // Creating a server at the root
-gulp.task('default', ['serve', 'fileinclude']);
+gulp.task('default', ['ui']);

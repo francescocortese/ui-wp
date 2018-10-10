@@ -1,7 +1,7 @@
 {
-  "name": "scss_starter_pack",
+  "name": "ui-wp",
   "version": "1.0.0",
-  "description": "Starter pack using gulp",
+  "description": "Starter pack using gulp and sass for UI and WP Themes",
   "main": "index.js",
   "scripts": {
     "start": "gulp"

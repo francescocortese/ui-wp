@@ -9,3 +9,5 @@ set the var ThemeName in gulpfile.js
 
 gulp ui for UI
 gulp wp for wordpress
+
+run together cmd+t on terminal
