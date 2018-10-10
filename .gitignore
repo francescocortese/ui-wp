@@ -1,3 +1,7 @@
 node_modules
-.DS_Store
 .tmp
+wp/*
+!wp/wp-content/
+wp/wp-content/uploads/
+wp/wp-content/languages/
+.DS_Store
