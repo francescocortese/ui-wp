@@ -13,7 +13,6 @@ var gulp = require('gulp'),
 
 // Gulp Task SASS, postcss/autoprefixer, Browsersync
 gulp.task('sass', function() {
-    //return gulp.src('./ui/scss/main.scss')
     return gulp.src('./assets/scss/**/*.scss')
         .pipe(sass())
         .pipe(postcss([ autoprefixer({ browsers: [
@@ -27,6 +26,7 @@ gulp.task('sass', function() {
           'Android >= 4',
           'Opera >= 12']})]))
         .pipe(gulp.dest('./ui/build/css'))
+        .pipe(gulp.dest('./wp/wp-content/themes/ui-wp/css'))
         .pipe(browserSync.stream());
 });
 
@@ -47,7 +47,6 @@ gulp.task('fileinclude-watch', ['fileinclude']);
 // Uglify - Cache
 gulp.task('scripts', function () {
   var jsFsCache = fsCache('.tmp/jscache'); // save cache to .tmp/jscache
-  //return gulp.src(['./ui/js/plugins.js', './ui/js/main.js'])
   return gulp.src(['./assets/js/plugins.js', './assets/js/main.js'])
       .pipe(concat('app.js'))
       .pipe(sourcemaps.init())
@@ -56,21 +55,33 @@ gulp.task('scripts', function () {
       .pipe(rename('app.min.js'))
       .pipe(jsFsCache.restore)
       .pipe(sourcemaps.write())
-      .pipe(gulp.dest('./ui/build/js/')).pipe(browserSync.stream());
+      .pipe(gulp.dest('./ui/build/js/'))
+      .pipe(gulp.dest('./wp/wp-content/themes/ui-wp/js'))
+      .pipe(browserSync.stream());
 });
 
-// Compile SASS
-gulp.task('serve', ['sass'], function() {
+// Compile UI
+gulp.task('ui', ['sass'], function() {
     browserSync.init({
         server: "./ui/build/"
     });
     // warch file-include for root and inc
     gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
-    //gulp.watch("./ui/scss/**/*.scss", ['sass']);
     gulp.watch("./assets/scss/**/*.scss", ['sass']);
-    //gulp.watch("./ui/js/**/*.js", ['scripts']);
     gulp.watch("./assets/js/**/*.js", ['scripts']);
     gulp.watch("./ui/*.html").on('change', browserSync.reload);
+});
+
+// Compile WP
+gulp.task('wp', ['sass'], function() {
+    browserSync.init({
+        proxy: "http://localhost:8888/test/ui-wp/wp/"
+    });
+    gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
+    gulp.watch("./assets/scss/**/*.scss", ['sass']);
+    gulp.watch("./assets/css/**/*.css", ['sass']);
+    gulp.watch("./assets/js/**/*.js", ['scripts']);
+    gulp.watch("./wp/wp-content/themes/ui-wp/*.php").on('change', browserSync.reload);
 });
 
 // Creating a server at the root
