@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     fsCache = require('gulp-fs-cache'),
     rename = require("gulp-rename"),
     concat = require('gulp-concat'),
+    pathProject = "test/"
     ThemeName = "ui-wp";
 
 
@@ -76,7 +77,7 @@ gulp.task('ui', ['sass'], function() {
 // Compile WP
 gulp.task('wp', ['sass'], function() {
     browserSync.init({
-        proxy: 'http://localhost:8888/test/'+ThemeName+'/wp/'
+        proxy: 'http://localhost:8888/' + pathProject + ThemeName + '/wp/'
     });
     gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
     gulp.watch("./assets/scss/**/*.scss", ['sass']);
