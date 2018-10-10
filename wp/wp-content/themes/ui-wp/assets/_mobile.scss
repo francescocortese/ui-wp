@@ -1,0 +1,63 @@
+/* ==========================================================================
+   GENERAL
+   ========================================================================== */
+.wrapper { margin: 0 auto; padding: 0 20px;}
+.title_section {
+  font-size: 28px;
+  &:after { margin: 15px auto 20px; }
+}
+
+
+/* ==========================================================================
+   ABOUT
+   ========================================================================== */
+ #about {
+   .about_text p { font-size: 16px; line-height: 24px; }
+ }
+
+
+
+/* ==========================================================================
+   ROOMS
+   ========================================================================== */
+#rooms_wrapper { padding-top: 0; }
+#rooms {
+  .rooms_intro { font-size: 16px; line-height: 24px; }
+}
+.slick-slide { margin: 0; }
+
+
+/* ==========================================================================
+   WHERE
+   ========================================================================== */
+#where {
+  height: auto;
+  .where_img, .where_text { width: 100%; float: none; }
+
+  .where_img {
+    max-height: 400px;
+    img { object-fit: cover; width: 100%; height: 100%; }
+  }
+  .where_text {
+
+    height: auto;
+    .wrapper { width: calc(100% - 40px); padding: 40px 20px; min-width: auto; position: relative; transform: none; position: relative; left: 0; }
+    .where_title { font-size: 24px; line-height: 32px; }
+    .where_subtitle { font-size: 14px; line-height: 14px; }
+    .where_intro { font-size: 18px; line-height: 26px; margin: 20px 0;  }
+    p { font-size: 14px; line-height: 20px; margin-bottom: 10px; }
+
+
+  }
+}
+
+/* ==========================================================================
+   REVIEWS
+   ========================================================================== */
+
+#reviews { margin-bottom: 80px; }
+.title_section__up { font-size: 16px; margin-bottom: 4px; }
+.reviews_slide {
+  max-width: 670px; text-align: center;
+  p { font-size: 16px; line-height: 24px; }
+}
