@@ -1,4 +1,4 @@
-# 1806 / ui-wp
+# ui-wp SCSS 
 
 npm install
 
