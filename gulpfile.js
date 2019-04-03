@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     pathProject = "test/",
     port = "8888",
+    del = require('del'),
     ThemeName = "ui-wp";
 
 
@@ -63,6 +64,34 @@ gulp.task('scripts', function () {
       .pipe(browserSync.stream());
 });
 
+
+
+// Copy Img, Fonts, JS in Build folder
+gulp.task('copy-folders', function () {
+
+    // img folder
+    del('./ui/build/img/**/*');
+    gulp.src('./assets/img/**/*')
+        .pipe(gulp.dest('./ui/build/img/'));
+
+    del('./wp/wp-content/themes/'+ThemeName+'/img/**/*');
+    gulp.src('./assets/img/**/*')
+        .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/img/'));
+
+    // fonts folder
+    del('./ui/build/fonts/**/*');
+    gulp.src('./assets/fonts/**/*')
+        .pipe(gulp.dest('./ui/build/fonts/'));
+
+    del('./wp/wp-content/themes/'+ThemeName+'/fonts/**/*');
+        gulp.src('./assets/fonts/**/*')
+            .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/fonts/'));
+
+});
+
+
+
+
 // Compile UI
 gulp.task('ui', ['sass'], function() {
     browserSync.init({
@@ -70,8 +99,8 @@ gulp.task('ui', ['sass'], function() {
     });
     // warch file-include for root and inc
     gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
-    gulp.watch("./assets/scss/**/*.scss", ['sass']);
-    gulp.watch("./assets/js/**/*.js", ['scripts']);
+    gulp.watch("./assets/scss/**/*.scss", ['sass','copy-folders']);
+    gulp.watch("./assets/js/**/*.js", ['scripts','copy-folders']);
     gulp.watch("./ui/*.html").on('change', browserSync.reload);
 });
 
@@ -81,9 +110,9 @@ gulp.task('wp', ['sass'], function() {
         proxy: 'http://localhost:'+ port +'/' + pathProject + ThemeName + '/wp/'
     });
     gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
-    gulp.watch("./assets/scss/**/*.scss", ['sass']);
-    gulp.watch("./assets/css/**/*.css", ['sass']);
-    gulp.watch("./assets/js/**/*.js", ['scripts']);
+    gulp.watch("./assets/scss/**/*.scss", ['sass','copy-folders']);
+    gulp.watch("./assets/css/**/*.css", ['sass','copy-folders']);
+    gulp.watch("./assets/js/**/*.js", ['scripts','copy-folders']);
     gulp.watch('./wp/wp-content/themes/'+ThemeName+'/*.php').on('change', browserSync.reload);
 });
 
