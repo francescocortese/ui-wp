@@ -3,6 +3,11 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync').create(),
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
+
+    cssmin = require('gulp-cssmin'),
+    plumber = require('gulp-plumber'),
+    notify = require("gulp-notify"),
+
     fileinclude = require('gulp-file-include')
     uglify = require("gulp-uglify"),
     sourcemaps = require('gulp-sourcemaps'),
@@ -18,6 +23,12 @@ var gulp = require('gulp'),
 // Gulp Task SASS, postcss/autoprefixer, Browsersync
 gulp.task('sass', function() {
     return gulp.src('./assets/scss/**/*.scss')
+        .pipe(plumber({ errorHandler: function(err) {
+            notify.onError({
+                title: "Gulp error in " + err.plugin,
+                message:  err.toString()
+            })(err);
+        }}))
         .pipe(sass())
         .pipe(postcss([ autoprefixer({ browsers: [
           'Chrome >= 35',
@@ -31,12 +42,22 @@ gulp.task('sass', function() {
           'Opera >= 12']})]))
         .pipe(gulp.dest('./ui/build/css'))
         .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/css'))
+        .pipe(cssmin())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./ui/build/css'))
+        .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/css'))
         .pipe(browserSync.stream());
 });
 
 // File Include
 gulp.task('fileinclude', function() {
   return gulp.src(['./ui/*.html'])
+    .pipe(plumber({ errorHandler: function(err) {
+        notify.onError({
+            title: "Gulp error in " + err.plugin,
+            message:  err.toString()
+        })(err);
+    }}))
     .pipe(fileinclude({
       prefix: '@@',
       basepath: '@file'
@@ -52,6 +73,12 @@ gulp.task('fileinclude-watch', ['fileinclude']);
 gulp.task('scripts', function () {
   var jsFsCache = fsCache('.tmp/jscache'); // save cache to .tmp/jscache
   return gulp.src(['./assets/js/plugins.js', './assets/js/main.js'])
+      .pipe(plumber({ errorHandler: function(err) {
+          notify.onError({
+              title: "Gulp error in " + err.plugin,
+              message:  err.toString()
+          })(err);
+      }}))
       .pipe(concat('app.js'))
       .pipe(sourcemaps.init())
       .pipe(jsFsCache)
@@ -72,25 +99,31 @@ gulp.task('copy-folders', function () {
     // img folder
     del('./ui/build/img/**/*');
     gulp.src('./assets/img/**/*')
-        .pipe(gulp.dest('./ui/build/img/'));
+    .pipe(gulp.dest('./ui/build/img/'));
 
     del('./wp/wp-content/themes/'+ThemeName+'/img/**/*');
     gulp.src('./assets/img/**/*')
-        .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/img/'));
+    .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/img/'));
 
     // fonts folder
     del('./ui/build/fonts/**/*');
     gulp.src('./assets/fonts/**/*')
-        .pipe(gulp.dest('./ui/build/fonts/'));
+    .pipe(gulp.dest('./ui/build/fonts/'));
 
     del('./wp/wp-content/themes/'+ThemeName+'/fonts/**/*');
-        gulp.src('./assets/fonts/**/*')
-            .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/fonts/'));
+    gulp.src('./assets/fonts/**/*')
+    .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/fonts/'));
+
+    // JS folder
+    del('./ui/build/js/**/*');
+    gulp.src(['./assets/js/**/*','!./assets/js/main.js','!./assets/js/plugins.js'])
+    .pipe(gulp.dest('./ui/build/js/'));
+
+    del('./wp/wp-content/themes/'+ThemeName+'/js/**/*');
+    gulp.src(['./assets/js/**/*','!./assets/js/main.js','!./assets/js/plugins.js'])
+    .pipe(gulp.dest('./wp/wp-content/themes/'+ThemeName+'/js/'));
 
 });
-
-
-
 
 // Compile UI
 gulp.task('ui', ['sass'], function() {

@@ -76,7 +76,7 @@
 
 	<meta name="viewport" content="width=device-width, initali-scale=1.0" />
 	<meta name="HandheldFriendly" content="true" />
-	<link rel="stylesheet" href="<?php echo esc_url( get_stylesheet_directory_uri() ) ?>/css/main.css">
+	<link rel="stylesheet" href="<?php echo esc_url( get_stylesheet_directory_uri() ) ?>/css/main.min.css">
 	<link rel="shortcut icon" href="<?php echo esc_url( get_stylesheet_directory_uri() ) ?>/img/favicon.ico" type="image/x-icon" />
 	<!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
