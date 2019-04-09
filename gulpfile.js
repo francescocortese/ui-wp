@@ -67,7 +67,7 @@ gulp.task('fileinclude', function() {
 });
 
 // Build- watch file fileinclude
-gulp.task('fileinclude-watch', ['fileinclude']);
+gulp.task('fileinclude-watch', gulp.series('fileinclude'));
 
 // Uglify - Cache
 gulp.task('scripts', function () {
@@ -126,28 +126,28 @@ gulp.task('copy-folders', function () {
 });
 
 // Compile UI
-gulp.task('ui', ['sass'], function() {
+gulp.task('ui', gulp.series('sass', function() {
     browserSync.init({
         server: "./ui/build/"
     });
     // warch file-include for root and inc
-    gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
-    gulp.watch("./assets/scss/**/*.scss", ['sass','copy-folders']);
-    gulp.watch("./assets/js/**/*.js", ['scripts','copy-folders']);
+    gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], gulp.series('fileinclude-watch'));
+    gulp.watch("./assets/scss/**/*.scss", gulp.series('sass','copy-folders'));
+    gulp.watch("./assets/js/**/*.js", gulp.series('scripts','copy-folders'));
     gulp.watch("./ui/*.html").on('change', browserSync.reload);
-});
+}));
 
 // Compile WP
-gulp.task('wp', ['sass'], function() {
+gulp.task('wp', gulp.series('sass', function() {
     browserSync.init({
         proxy: 'http://localhost:'+ port +'/' + pathProject + ThemeName + '/wp/'
     });
-    gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], ['fileinclude-watch']);
-    gulp.watch("./assets/scss/**/*.scss", ['sass','copy-folders']);
-    gulp.watch("./assets/css/**/*.css", ['sass','copy-folders']);
-    gulp.watch("./assets/js/**/*.js", ['scripts','copy-folders']);
+    gulp.watch(['./ui/inc/**/*.html', './ui/*.html'], gulp.series('fileinclude-watch'));
+    gulp.watch("./assets/scss/**/*.scss", gulp.series('sass','copy-folders'));
+    gulp.watch("./assets/css/**/*.css", gulp.series('sass','copy-folders'));
+    gulp.watch("./assets/js/**/*.js", gulp.series('scripts','copy-folders'));
     gulp.watch('./wp/wp-content/themes/'+ThemeName+'/*.php').on('change', browserSync.reload);
-});
+}));
 
 // Creating a server at the root
-gulp.task('default', ['ui']);
+gulp.task('default', gulp.series('ui'));
